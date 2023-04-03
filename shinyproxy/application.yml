@@ -25,11 +25,15 @@ proxy:
     container-cmd: ["R", "-e", "shiny::runApp('/home/app')"]
     container-image: thomasvyu/shiny-hello-world:syn-login
     container-network: "${proxy.docker.container-network}"
-  # - id: app-in-compose
-  #   container-image: nginx-forwarder
-  #   container-network: "${proxy.docker.container-network}"
-  #   container-env:
-  #     APP_NAME: app-in-compose
+  - id: dca_test
+    display-name: DCA
+    description: This is data curator app
+    # container-cmd: ["R", "-e", "shiny::runApp('/srv/shiny-server/app')"]
+    container-image: ghcr.io/sage-bionetworks/data_curator:0.3.10-beta
+    container-network: "${proxy.docker.container-network}"
+    container-env:
+      SECRETS_MANAGER_SECRETS: '{"DCA_SCHEMATIC_API_TYPE":"offline","DCA_CLIENT_ID":"100127","DCA_CLIENT_SECRET":"","DCA_APP_URL":"http://127.0.0.1:8100"}'
+
 logging:
   file:
     /log/shinyproxy.log
