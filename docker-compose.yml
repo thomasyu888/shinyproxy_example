@@ -12,6 +12,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./shinyproxy-logs/server:/log"
       - "./shinyproxy-logs/container:/container-logs"
+      - "./shinyproxy/application.yml:/opt/shinyproxy/application.yml"
     networks:
       - sp-example-net
 
