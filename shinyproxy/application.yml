@@ -1,0 +1,39 @@
+proxy:
+  title: ShinyProxy
+  port: 8080
+  hide-navbar: false
+  container-log-path: /container-logs
+  docker:
+    internal-networking: true
+    container-network: sp-example-net
+  specs:
+  - id: 01_hello
+    display-name: Hello Application
+    description: Application which demonstrates the basics of a Shiny app
+    container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
+    container-image: openanalytics/shinyproxy-demo
+    container-network: "${proxy.docker.container-network}"
+  - id: hello_world
+    display-name: Hello World
+    description: This is the basic shiny example
+    container-cmd: ["R", "-e", "shiny::runApp('/home/app')"]
+    container-image: thomasvyu/shiny-hello-world:latest
+    container-network: "${proxy.docker.container-network}"
+  - id: hello_world_synlogin
+    display-name: Hello World Synapse Login
+    description: This is the basic shiny example
+    container-cmd: ["R", "-e", "shiny::runApp('/home/app')"]
+    container-image: thomasvyu/shiny-hello-world:syn-login
+    container-network: "${proxy.docker.container-network}"
+  # - id: app-in-compose
+  #   container-image: nginx-forwarder
+  #   container-network: "${proxy.docker.container-network}"
+  #   container-env:
+  #     APP_NAME: app-in-compose
+logging:
+  file:
+    /log/shinyproxy.log
+
+# server:
+#   servlet:
+#     context-path:  /

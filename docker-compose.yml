@@ -1,0 +1,21 @@
+version: "3"
+services:
+  shinyproxy:
+    build: ./shinyproxy
+    privileged: true
+    image: shiny-proxy
+    ports:
+      - 8080:8080
+    environment: 
+      - "WORK_DIR=${PWD}"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./shinyproxy-logs/server:/log"
+      - "./shinyproxy-logs/container:/container-logs"
+    networks:
+      - sp-example-net
+
+networks:
+  sp-example-net:
+    driver: bridge
+    name: sp-example-net
